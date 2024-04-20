@@ -1,5 +1,6 @@
 import React from "react";
 import useTaskManager from "../hook/useTaskManager";
+import Modal from "../components/Modal";
 
 const Home = () => {
   const { tasks, removeTask } = useTaskManager();
@@ -29,6 +30,7 @@ const Home = () => {
           ) : (
             <div className="flex justify-center items-center h-96 mx-0 my-auto text-lg capitalize">
               please add tasks!!!
+              <Modal/>
             </div>
           )}
         </div>

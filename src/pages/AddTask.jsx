@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import useTaskManager from "../hook/useTaskManager";
-import { redirect } from "react-router-dom";
 
 const AddTask = () => {
   const { addTask } = useTaskManager();

@@ -3,11 +3,12 @@ import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const Header = () => {
-  const { isAuthenticated, login, logout } = useContext(AuthContext);
+  const { isAuthenticated, setOpen } = useContext(AuthContext);
   const path = [
     { name: "Home", to: "/" },
     { name: "Add Task", to: "/add" },
   ];
+
   return (
     <>
       <header className="  flex justify-between p-5 sm:px-10 sm:py-5 items-center rounded-md flex-wrap gap-3">
@@ -33,17 +34,17 @@ const Header = () => {
           {isAuthenticated ? (
             <button
               className="px-3 py-1 border rounded-md border-black hover:border-dashed"
-              onClick={logout}
+              onClick={() => setOpen(true)}
             >
               logout
             </button>
           ) : (
-            <button
+            <Link
               className="px-3 py-1 border rounded-md border-black hover:border-dashed"
-              onClick={login}
+              to="/login"
             >
               Login
-            </button>
+            </Link>
           )}
         </nav>
       </header>
