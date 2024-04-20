@@ -16,6 +16,7 @@ function App() {
         </Layout>
       ),
     },
+
     {
       path: "/login",
       element: (
@@ -31,6 +32,24 @@ function App() {
           <ProtectedRoute>
             <AddTask />
           </ProtectedRoute>
+        </Layout>
+      ),
+    },
+    {
+      path: "/edit/:id",
+      element: (
+        <Layout>
+          <ProtectedRoute>
+            <AddTask />
+          </ProtectedRoute>
+        </Layout>
+      ),
+    },
+    {
+      path: "*",
+      element: (
+        <Layout>
+          <h1>Error</h1>
         </Layout>
       ),
     },

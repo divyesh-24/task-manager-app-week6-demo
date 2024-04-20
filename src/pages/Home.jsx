@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useTaskManager from "../hook/useTaskManager";
 import Modal from "../components/Modal";
+import ModalRemove from "../components/ModalRemove";
+import {
+  MinusIcon,
+  PencilSquareIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
+import { AuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const { tasks, removeTask } = useTaskManager();
+  const { isAuthenticated, openShowModal, setOpenShowModal } =
+    useContext(AuthContext);
+  useEffect(() => {}, [tasks]);
   return (
     <>
       <div className="min-h-[86vh] h-fit border rounded-xl p-10">
@@ -19,18 +30,36 @@ const Home = () => {
                   <p className="text-lg">{task.title}</p>
                   <p className="text-gray-400 ">{task?.desc}</p>
                 </div>
-                <button
-                  className="px-3 border absolute top-2 right-2 rounded-full py-1.5 hover:border-dashed active:border-solid hover:border-black"
-                  onClick={() => removeTask(i)}
-                >
-                  x
-                </button>
+                {isAuthenticated && (
+                  <div>
+                    <button
+                      className="px-3 border absolute top-2 right-2 rounded-full py-1.5 hover:border-dashed hover:text-red-500 active:border-solid hover:border-black"
+                      onClick={() => setOpenShowModal(i)}
+                    >
+                      <TrashIcon className="h-4 w-4 " />
+                    </button>
+                    <Link
+                      to={`/edit/${i + 1}`}
+                      className="px-3 border absolute top-2 right-14 rounded-full py-1.5 hover:border-dashed hover:text-blue-500 active:border-solid hover:border-black"
+                      // onClick={() => setOpenShowModal(i)}
+                    >
+                      <PencilSquareIcon className="h-4 w-4 " />
+                    </Link>
+                  </div>
+                )}
+                <ModalRemove
+                  title={"Remove"}
+                  massage={`Are you sure Remove ${task?.title} ?`}
+                  dangerAction={() => removeTask(i)}
+                  dangerOption={"Remove"}
+                  showModal={openShowModal === i}
+                  cancelAction={() => setOpenShowModal(-1)}
+                />
               </div>
             ))
           ) : (
             <div className="flex justify-center items-center h-96 mx-0 my-auto text-lg capitalize">
               please add tasks!!!
-              <Modal/>
             </div>
           )}
         </div>

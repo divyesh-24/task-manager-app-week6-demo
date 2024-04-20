@@ -1,12 +1,23 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useTaskManager from "../hook/useTaskManager";
+import { AuthContext } from "../context/AuthContext";
+import { useNavigate, useParams } from "react-router-dom";
 
 const AddTask = () => {
-  const { addTask } = useTaskManager();
+  const { id } = useParams();
+  const { addTask, editTask } = useTaskManager();
+  const { tasks } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [data, setData] = useState([]);
+  useEffect(() => {
+    if (id) {
+      setTitle(tasks[id - 1].title);
+      setDesc(tasks[id - 1].desc);
+    }
+  }, [id]);
 
   const handelForm = (e) => {
     e.preventDefault();
@@ -14,9 +25,20 @@ const AddTask = () => {
       setData({ error: "Title should be more then 3 Characters" });
       return;
     }
-    addTask({ title: title, desc: desc });
+    if (!id) {
+      let a = tasks.filter((item) => item.title === title);
+      if (a.length > 0) {
+        setData({ error: "Task Already added" });
+        return;
+      }
+      addTask({ title: title, desc: desc });
+    }
+    if (id) {
+      editTask(id, { title: title, desc: desc });
+    }
     setTitle("");
     setDesc("");
+    navigate("/");
   };
 
   return (
@@ -59,7 +81,7 @@ const AddTask = () => {
               type="submit"
               className="inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto"
             >
-              Submit
+              {id ? "Save" : "Submit"}
             </button>
           </div>
         </form>
