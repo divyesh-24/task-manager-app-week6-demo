@@ -17,9 +17,9 @@ export const AuthProvider = ({ children }) => {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    const task = localStorage.getItem("tasks") ?? [];
+    const task = JSON.parse(localStorage.getItem("tasks")) ?? [];
     if (task) {
-      setTasks(JSON.parse(task));
+      setTasks(task);
     }
   }, []);
 

@@ -43,7 +43,9 @@ const AddTask = () => {
 
   return (
     <div className="min-h-[86vh] border rounded-xl">
-      <h1 className="text-lg md:text-xl p-6 px-10">Add Tasks</h1>
+      <h1 className="text-lg md:text-xl p-6 px-10">
+        {id ? "Edit" : "Add"} Task
+      </h1>
       <div className=" w-full h-4/5  px-10  box-border rounded-lg lg:w-3/5">
         <form onSubmit={handelForm} className="space-y-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
